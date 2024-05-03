@@ -29,7 +29,7 @@ if api_key:
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=0)
+        data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=250)
         retriever = retrieve.auto_retriever(data,type="normal",top_k=3)
         pipeline = generator.Generate(question=question, retriever=retriever)
         response = pipeline.call()

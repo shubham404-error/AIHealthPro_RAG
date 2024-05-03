@@ -26,7 +26,7 @@ if uploaded_file is not None and question:
         f.write(uploaded_file.getbuffer())
 
     # Assuming 'pdf_path' should be 'file_path'
-    data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=250)
+    data = source.fit(file_path, dtype="pdf", chunk_size=4028, chunk_overlap=500)
 
     llm = GeminiModel(model_name="gemini-pro", google_api_key=google_api_key)
     retriever = retrieve.auto_retriever(data, type="normal", top_k=3)

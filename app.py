@@ -2,6 +2,7 @@ import os
 import streamlit as st
 from beyondllm import source, retrieve, embeddings, llms, generator
 from beyondllm.llms import GeminiModel
+from beyondllm.embeddings import GeminiEmbeddings
 from dotenv import load_dotenv
 
 load_dotenv()  # Load environment variables from .env file
@@ -26,10 +27,10 @@ if uploaded_file is not None and question:
         f.write(uploaded_file.getbuffer())
 
     # Assuming 'pdf_path' should be 'file_path'
-    data = source.fit(file_path, dtype="pdf", chunk_size=2056, chunk_overlap=250)
-
+    data = source.fit(file_path, dtype="pdf", chunk_size=1024, chunk_overlap=250)
+    embed_model = GeminiEmbeddings(api_key=google_api_key, model_name="models/embedding-001")
     llm = GeminiModel(model_name="gemini-pro", google_api_key=google_api_key)
-    retriever = retrieve.auto_retriever(data, type="normal", top_k=3)
+    retriever = retrieve.auto_retriever(data, type="normal", top_k=3,embed_model=embed_model)
     pipeline = generator.Generate(question=question, retriever=retriever, llm=llm)
     response = pipeline.call()
 

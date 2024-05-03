@@ -5,7 +5,7 @@ from getpass import getpass
 from dotenv import load_dotenv
 load_dotenv()
 st.title("Chat with document")
-os.environ['GOOGLE_API_KEY'] = api_key
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 uploaded_file = st.file_uploader("Choose a PDF file", type='pdf')
 question = st.text_input("Enter your question")
 if uploaded_file is not None and question:
